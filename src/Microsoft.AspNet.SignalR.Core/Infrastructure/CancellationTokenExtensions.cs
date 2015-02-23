@@ -50,6 +50,13 @@ namespace Microsoft.AspNet.SignalR.Infrastructure
             return fallback;
 #else
 
+            //
+            // Just do not continue if we are running mono, and return the default fallback.
+            // This makes it work with Mono 3.99 (the latest dev branch)
+            //
+            if (MonoUtility.IsRunningMono)
+                return fallback;
+
             MethodInfo methodInfo = null;
 
             try
