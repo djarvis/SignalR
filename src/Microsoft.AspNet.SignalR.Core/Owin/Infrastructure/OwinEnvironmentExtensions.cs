@@ -96,11 +96,28 @@ namespace Microsoft.AspNet.SignalR
 
         internal static void DisableRequestCompression(this IDictionary<string, object> environment)
         {
-            var action = environment.Get<Action>(OwinConstants.DisableRequestCompression);
-
-            if (action != null)
+            try
             {
-                action();
+                Console.WriteLine("DisableRequestCompression(): begin");
+                //foreach (var kvp in environment)
+                //{
+                //    Console.WriteLine("environment[" + kvp.Key + "]=" + (kvp.Value != null ? kvp.Value.ToString() : "(null)"));
+                //}
+                var action = environment.Get<Action>(OwinConstants.DisableRequestCompression);
+
+                if (action != null)
+                {
+                    Console.WriteLine("DisableRequestCompression(): Performing action ");
+                    action();
+                }
+                else
+                {
+                    Console.WriteLine("DisableRequestCompression(): not Performing action ");
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("DisableRequestCompression() exception: " + ex.Message);
             }
         }
     }

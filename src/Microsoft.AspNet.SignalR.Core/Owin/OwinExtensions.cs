@@ -28,6 +28,7 @@ namespace Owin
         /// <param name="builder">The app builder</param>
         public static IAppBuilder MapSignalR(this IAppBuilder builder)
         {
+            Console.WriteLine("MapSignalR(this IAppBuilder builder)");
             return builder.MapSignalR(new HubConfiguration());
         }
 
@@ -38,6 +39,7 @@ namespace Owin
         /// <param name="configuration">The <see cref="HubConfiguration"/> to use</param>
         public static IAppBuilder MapSignalR(this IAppBuilder builder, HubConfiguration configuration)
         {
+            Console.WriteLine("MapSignalR(this IAppBuilder builder, HubConfiguration configuration)");
             return builder.MapSignalR("/signalr", configuration);
         }
 
@@ -49,11 +51,12 @@ namespace Owin
         /// <param name="configuration">The <see cref="HubConfiguration"/> to use</param>
         public static IAppBuilder MapSignalR(this IAppBuilder builder, string path, HubConfiguration configuration)
         {
+            Console.WriteLine("MapSignalR(this IAppBuilder builder, string path, HubConfiguration configuration)");
             if (configuration == null)
             {
                 throw new ArgumentNullException("configuration");
             }
-
+            Console.WriteLine("Calling builder.Map(path, subApp => subApp.RunSignalR(configuration));");
             return builder.Map(path, subApp => subApp.RunSignalR(configuration));
         }
 
@@ -63,6 +66,7 @@ namespace Owin
         /// <param name="builder">The app builder</param>
         public static void RunSignalR(this IAppBuilder builder)
         {
+            Console.WriteLine("RunSignalR()");
             builder.RunSignalR(new HubConfiguration());
         }
 
@@ -73,6 +77,7 @@ namespace Owin
         /// <param name="configuration">The <see cref="HubConfiguration"/> to use</param>
         public static void RunSignalR(this IAppBuilder builder, HubConfiguration configuration)
         {
+            Console.WriteLine("Calling builder.UseSignalRMiddleware<HubDispatcherMiddleware>(configuration);");
             builder.UseSignalRMiddleware<HubDispatcherMiddleware>(configuration);
         }
 
@@ -161,6 +166,7 @@ namespace Owin
         [SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling", Justification = "This class wires up new dependencies from the host")]
         private static IAppBuilder UseSignalRMiddleware<T>(this IAppBuilder builder, params object[] args)
         {
+            Console.WriteLine("UseSignalRMiddleware(): Begin");
             ConnectionConfiguration configuration = null;
 
             // Ensure we have the conversions for MS.Owin so that
@@ -242,6 +248,7 @@ namespace Owin
             // be a problem most of the time.
             builder.UseStageMarker(PipelineStage.PostAuthorize);
 
+            Console.WriteLine("UseSignalRMiddleware(): End");
             return builder;
         }
     }

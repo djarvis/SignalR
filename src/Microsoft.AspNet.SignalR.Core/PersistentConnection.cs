@@ -146,6 +146,7 @@ namespace Microsoft.AspNet.SignalR
             var context = new HostContext(environment);
 
             // Disable request compression and buffering on IIS
+            Console.WriteLine("Disabling Request Compression...");
             environment.DisableRequestCompression();
             environment.DisableResponseBuffering();
 
